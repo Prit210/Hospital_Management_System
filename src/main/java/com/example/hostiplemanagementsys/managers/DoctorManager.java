@@ -65,9 +65,14 @@ public class DoctorManager extends Manager {
         data.add(sc.nextLine().toUpperCase());
         columns.add("shift");
 
-        Manager.addRecord("doctor", columns, data);
 
-        Logger.addToLog(log, "Doctor with name: " + data.get(0) + " added successfully.");
+            if(Manager.addRecord("doctor", columns, data)) {
+                Logger.log(Logger.LogLevel.INFO, "Doctor with name: " + data.get(0) + " added successfully.");
+            }else{
+                System.out.println("Error: Failed to add doctor.");
+                Logger.log(Logger.LogLevel.ERROR, "Error: Failed to add doctor.");
+            }
+
     }
 
     // Update doctor record using switch-case
@@ -181,10 +186,12 @@ public class DoctorManager extends Manager {
         }
 
         if (!columns.isEmpty()) {
-            Manager.updateRecord("doctor", columns, data, "user_id = " + doctorId);
-            Logger.addToLog(log, "Doctor with ID: " + doctorId + " updated successfully.");
+            if(Manager.updateRecord("doctor", columns, data, "user_id = " + doctorId)) {
+                Logger.log(Logger.LogLevel.INFO, "Doctor with ID: " + doctorId + " updated successfully.");
+            }
         } else {
-            System.out.println("No updates made.");
+            System.out.println(".No updates made");
+            Logger.log(Logger.LogLevel.ERROR, "Updation failed");
         }
     }
 
@@ -194,7 +201,12 @@ public class DoctorManager extends Manager {
         Scanner sc = new Scanner(System.in);
         int doctorId = sc.nextInt();
 
-        Manager.deleteRecord("doctor", "user_id = " + doctorId);
-        Logger.addToLog(log, "Doctor with ID: " + doctorId + " deleted successfully.");
+
+           if(Manager.deleteRecord("doctor", "user_id = " + doctorId)){
+            Logger.log(Logger.LogLevel.INFO, "Doctor with ID: " + doctorId + " deleted successfully.");
+        }else{
+               Logger.log(Logger.LogLevel.ERROR, "Couldn't delete Doctor with ID: " + doctorId );
+           }
+
     }
 }

@@ -25,7 +25,7 @@ public class Manager {
         // ---------- Generic CRUD Operations for All Tables ---------- //
 
         // Create Record
-        public static void addRecord(String table, List<String> columns, List<Object> values) {
+        public static boolean addRecord(String table, List<String> columns, List<Object> values) {
             StringBuilder query = new StringBuilder("INSERT INTO ").append(table).append(" (");
             for (String column : columns) {
                 query.append(column).append(", ");
@@ -44,13 +44,15 @@ public class Manager {
                 }
                 pstmt.executeUpdate();
                 System.out.println("Record added to table: " + table);
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return false;
             }
         }
 
         // Read Records
-        public static void getRecords(String table) {
+        public static  boolean getRecords(String table) {
             String query = "SELECT * FROM " + table;
             try (Statement stmt = connection.createStatement();
                  ResultSet rs = stmt.executeQuery(query)) {
@@ -63,13 +65,15 @@ public class Manager {
                     }
                     System.out.println();
                 }
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return false;
             }
         }
 
         // Update Record
-        public static void updateRecord(String table, List<String> columns, List<Object> values, String condition) {
+        public static  boolean updateRecord(String table, List<String> columns, List<Object> values, String condition) {
             StringBuilder query = new StringBuilder("UPDATE ").append(table).append(" SET ");
             for (String column : columns) {
                 query.append(column).append(" = ?, ");
@@ -83,26 +87,30 @@ public class Manager {
                 }
                 pstmt.executeUpdate();
                 System.out.println("Record updated in table: " + table);
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return false;
             }
         }
 
         // Delete Record
-        public static void deleteRecord(String table, String condition) {
+        public static  boolean deleteRecord(String table, String condition) {
             String query = "DELETE FROM " + table + " WHERE " + condition;
             try (PreparedStatement pstmt = connection.prepareStatement(query)) {
                 pstmt.executeUpdate();
                 System.out.println("Record deleted from table: " + table);
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return false;
             }
         }
 
         // ---------- Specialized Methods for Specific Tables ---------- //
 
         // Get Appointments by Doctor ID
-        public static void getAppointmentsByDoctor(int doctorId) {
+        public static  boolean getAppointmentsByDoctor(int doctorId) {
             String query = "SELECT * FROM appointments WHERE doctor_id = ?";
             try (PreparedStatement pstmt = connection.prepareStatement(query)) {
                 pstmt.setInt(1, doctorId);
@@ -114,13 +122,15 @@ public class Manager {
                                 ", Status: " + rs.getString("status"));
                     }
                 }
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return false;
             }
         }
 
         // Get Patients by Doctor ID
-        public static void getPatientsByDoctor(int doctorId) {
+        public static  boolean getPatientsByDoctor(int doctorId) {
             String query = "SELECT * FROM patient WHERE doctor_id = ?";
             try (PreparedStatement pstmt = connection.prepareStatement(query)) {
                 pstmt.setInt(1, doctorId);
@@ -132,22 +142,26 @@ public class Manager {
                                 ", Medical History: " + rs.getString("medicleHistory"));
                     }
                 }
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return false;
             }
         }
 
         // ---------- Utility Methods ---------- //
 
         // Close the database connection
-        public static void closeConnection() {
+        public static  boolean closeConnection() {
             try {
                 if (connection != null) {
                     connection.close();
                     System.out.println("Database connection closed.");
                 }
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return false;
             }
         }
 }

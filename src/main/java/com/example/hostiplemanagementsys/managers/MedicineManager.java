@@ -45,7 +45,7 @@ public class MedicineManager extends Manager {
 
         Manager.addRecord("medicines", columns, data);
 
-        Logger.addToLog(log, "Medicine with name: " + data.get(0) + " added successfully.");
+        Logger.log(Logger.LogLevel.INFO, "Medicine with name: " + data.get(0) + " added successfully.");
     }
 
     // Update medicine record using switch-case

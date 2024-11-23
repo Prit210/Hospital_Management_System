@@ -55,8 +55,12 @@ public class PatientManager extends Manager {
         columns.add("doctor_id");
         sc.nextLine(); 
 
-        Manager.addRecord("patient", columns, data);
-        Logger.addToLog(log, "Patient with name: " + data.get(0) + " added successfully.");
+        if(Manager.addRecord("patient", columns, data)){
+            Logger.log(Logger.LogLevel.INFO, "Patient with name: " + data.get(0) + " added successfully.");
+        }
+        else{
+            Logger.log(Logger.LogLevel.ERROR, "Patient with name: " + data.get(0) + " already exists.");
+        }
     }
 
     // Update patient record
@@ -156,9 +160,10 @@ public class PatientManager extends Manager {
 
         if (!columns.isEmpty()) {
             Manager.updateRecord("patient", columns, data, "user_id = " + patientId);
-            Logger.addToLog(log, "Patient with ID: " + patientId + " updated successfully.");
+            Logger.log(Logger.LogLevel.INFO, "Patient with ID: " + patientId + " updated successfully.");
         } else {
             System.out.println("No updates made.");
+            Logger.log(Logger.LogLevel.ERROR, "No updates made.");
         }
     }
 
@@ -168,7 +173,10 @@ public class PatientManager extends Manager {
         Scanner sc = new Scanner(System.in);
         int patientId = sc.nextInt();
 
-        Manager.deleteRecord("patient", "user_id = " + patientId);
-        Logger.addToLog(log, "Patient with ID: " + patientId + " deleted successfully.");
+        if(Manager.deleteRecord("patient", "user_id = " + patientId)) {
+            Logger.log(Logger.LogLevel.INFO, "Patient with ID: " + patientId + " deleted successfully.");
+        }else{
+            Logger.log(Logger.LogLevel.ERROR, "Couldn't delete Patient with ID: " + patientId );
+        }
     }
 }

@@ -48,9 +48,13 @@ public class StaffManager extends Manager {
         data.add(sc.nextLine().toUpperCase());
         columns.add("shift");
 
-        Manager.addRecord((String.valueOf(Role.valueOf(role))),columns,data);
         sc.close();
-        Logger.addToLog(log, "User with name :" + data.get(0) + " with role :" + role + "added successfully.");
+        if(Manager.addRecord((String.valueOf(Role.valueOf(role))),columns,data)) {
+            Logger.log(Logger.LogLevel.INFO, "User with name :" + data.get(0) + " with role :" + role + "added successfully.");
+        }
+        else{
+            Logger.log(Logger.LogLevel.ERROR,"Couldn't add "+role);
+        }
    }
 
     // Update staff record using switch-case
@@ -141,10 +145,15 @@ public class StaffManager extends Manager {
         }
 
         if (!columns.isEmpty()) {
-            Manager.updateRecord("staff", columns, data, "id = " + staffId);
-            Logger.addToLog(log, "Staff with ID: " + staffId + " updated successfully.");
+            if(Manager.updateRecord("staff", columns, data, "id = " + staffId)) {
+                Logger.log(Logger.LogLevel.INFO, "Staff with ID: " + staffId + " updated successfully.");
+            }
+            else{
+                Logger.log(Logger.LogLevel.ERROR, "Couldn't update staff with ID: " + staffId + ".");
+            }
         } else {
             System.out.println("No updates made.");
+            Logger.log(Logger.LogLevel.ERROR, "No updates made.");
         }
         sc.close();
     }
@@ -157,8 +166,11 @@ public class StaffManager extends Manager {
         int staffId = sc.nextInt();
         sc.nextLine();
 
-        Manager.deleteRecord("staff", "id = " + staffId);
-        Logger.addToLog(log, "Staff with ID: " + staffId + " deleted successfully.");
+        if(Manager.deleteRecord("staff", "id = " + staffId) ){
+            Logger.log(Logger.LogLevel.INFO, "Staff with ID: " + staffId + " deleted successfully.");
+        }else{
+            Logger.log(Logger.LogLevel.ERROR,"Couldn't delete");
+        }
         sc.close();
     }
 }
