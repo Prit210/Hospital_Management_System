@@ -1,12 +1,9 @@
 package com.example.hostiplemanagementsys.managers;
 import com.example.hostiplemanagementsys.Logger;
-import com.example.hostiplemanagementsys.managers.Manager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import static com.mysql.cj.conf.PropertyKey.logger;
 
 public class StaffManager extends Manager {
 
