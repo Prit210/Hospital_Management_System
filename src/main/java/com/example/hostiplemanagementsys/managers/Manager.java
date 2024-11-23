@@ -5,16 +5,16 @@ import java.util.List;
 
 public class Manager {
 
-        private static final String DB_URL = "jdbc:mysql://localhost:3306/hospital_management";
-        private static final String USER = "root";
-        private static final String PASSWORD = "password";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/?user=root";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "#Prit@MYSQL#";
 
         private static Connection connection;
 
         // Constructor for establishing database connection
         public Manager() {
             try {
-                connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+                connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                 System.out.println("Database connected successfully!");
             } catch (SQLException e) {
                 e.printStackTrace();
